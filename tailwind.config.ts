@@ -69,8 +69,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        display: ["Space Grotesk", "Inter", "sans-serif"],
+        sans: ["Poppins", "sans-serif"],
+        display: ["Playfair Display", "serif"],
       },
       backgroundImage: {
         "gradient-hero": "linear-gradient(135deg, hsl(var(--hero-from)), hsl(var(--hero-via)) 46%, hsl(var(--hero-to)))",
