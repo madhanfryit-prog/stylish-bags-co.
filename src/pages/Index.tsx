@@ -107,8 +107,11 @@ const Index = () => {
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-xl">
         <div className="container flex h-16 items-center justify-between">
-          <a href="#top" className="font-display text-lg font-semibold tracking-tight">
-            Shruti<span className="text-primary">.</span>
+          <a href="#top" className="flex items-center gap-2 font-display text-lg font-semibold tracking-tight">
+            <span>Shruti<span className="text-primary">.</span></span>
+            <span className="hidden items-center gap-1 rounded-full bg-primary-soft px-3 py-1 text-xs font-medium text-primary sm:inline-flex">
+              <Instagram className="h-3 w-3" /> @shruti_simepurushkar
+            </span>
           </a>
           <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map((l) => (
