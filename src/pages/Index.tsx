@@ -138,7 +138,7 @@ const Index = () => {
                 Shruti <span className="italic text-primary">Simepurushkar</span>
               </h1>
               <p className="text-base font-medium uppercase tracking-[0.25em] text-muted-foreground">
-                Fashion · Lifestyle · Government Campaign Influencer
+                Fashion · Content Creator · Brand Promotions · Media
               </p>
               <p className="max-w-lg text-lg leading-relaxed text-muted-foreground">
                 Empowering brands and communities through content — crafted with intention, styled with grace.
