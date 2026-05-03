@@ -108,20 +108,21 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Outfit', sans-serif;
     background-image:
-      radial-gradient(circle at top left, hsl(var(--primary) / 0.10), transparent 32%),
-      radial-gradient(circle at top right, hsl(var(--primary-glow) / 0.16), transparent 28%),
+      radial-gradient(circle at top left, hsl(var(--primary) / 0.18), transparent 35%),
+      radial-gradient(circle at top right, hsl(var(--primary-glow) / 0.14), transparent 32%),
+      radial-gradient(circle at bottom, hsl(var(--accent) / 0.25), transparent 50%),
       linear-gradient(180deg, hsl(var(--background)), hsl(var(--surface)) 55%, hsl(var(--background)));
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    letter-spacing: -0.005em;
   }
 
-  ::selection { background: hsl(var(--primary) / 0.22); }
+  ::selection { background: hsl(var(--primary) / 0.35); }
 }
 
 @layer components {
@@ -130,11 +131,11 @@
   .section-heading { @apply max-w-2xl space-y-4; }
 
   .eyebrow {
-    @apply inline-flex items-center rounded-full border border-border/70 bg-card/60 px-4 py-1 text-xs font-medium uppercase tracking-[0.18em] text-primary shadow-soft backdrop-blur;
+    @apply inline-flex items-center rounded-full border border-border/70 bg-card/60 px-4 py-1 text-xs font-medium uppercase tracking-[0.22em] text-primary-glow shadow-soft backdrop-blur;
   }
 
   .glass-panel {
-    @apply rounded-3xl border border-white/50 bg-white/55 backdrop-blur-xl shadow-soft;
+    @apply rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-soft;
   }
 
   .peach-card {
@@ -144,5 +145,5 @@
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
-  .font-display { font-family: 'Playfair Display', serif; }
+  .font-display { font-family: 'Cormorant Garamond', serif; }
 }
