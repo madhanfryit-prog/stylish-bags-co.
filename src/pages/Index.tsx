@@ -1,364 +1,449 @@
 import {
-  ArrowRight,
-  BadgePercent,
-  BriefcaseBusiness,
-  CircleDollarSign,
+  Award,
+  Camera,
+  Crown,
+  Heart,
   Instagram,
+  Landmark,
   Mail,
-  MessageCircle,
-  PackageCheck,
-  ShieldCheck,
+  MapPin,
+  Quote,
+  Send,
   Sparkles,
   Star,
-  Truck,
 } from "lucide-react";
+import { useState } from "react";
 
-import handbagImage from "@/assets/handbag.jpg";
-import laptopBagImage from "@/assets/laptop-bag.jpg";
-import schoolBagImage from "@/assets/school-bag.jpg";
-import travelBagImage from "@/assets/travel-bag.jpg";
-import { ProductCard } from "@/components/bags/ProductCard";
-import { SectionHeader } from "@/components/bags/SectionHeader";
+import heroPortrait from "@/assets/hero-portrait.jpg";
+import gallery1 from "@/assets/gallery-1.jpg";
+import gallery2 from "@/assets/gallery-2.jpg";
+import gallery3 from "@/assets/gallery-3.jpg";
+import gallery4 from "@/assets/gallery-4.jpg";
+import gallery5 from "@/assets/gallery-5.jpg";
+import gallery6 from "@/assets/gallery-6.jpg";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
 
-const featuredProducts = [
-  {
-    image: laptopBagImage,
-    name: "Nikhil Urban Laptop Bag",
-    category: "Laptop bags",
-    description: "Structured protection, easy organization, and a polished everyday profile for work or study.",
-    price: "₹1,599",
-    originalPrice: "₹1,999",
-    alt: "White and purple affordable laptop bag for professionals and students",
-  },
-  {
-    image: schoolBagImage,
-    name: "Daily Smart School Pack",
-    category: "School bags",
-    description: "Comfortable carry, durable compartments, and a fresh look that works from class to commute.",
-    price: "₹1,199",
-    originalPrice: "₹1,499",
-    alt: "Blue, white, and purple school bag with modern design",
-  },
-  {
-    image: handbagImage,
-    name: "Classic Ladies Hand Bag",
-    category: "Ladies hand bags",
-    description: "Elegant shape with everyday practicality, designed to look refined without the luxury markup.",
-    price: "₹1,899",
-    originalPrice: "₹2,399",
-    alt: "Modern ladies handbag in white and blue tones",
-  },
-  {
-    image: travelBagImage,
-    name: "Weekend Travel Duffel",
-    category: "Travel bags",
-    description: "Roomy, lightweight, and ready for quick trips with reliable stitching and clean styling.",
-    price: "₹2,199",
-    originalPrice: "₹2,749",
-    alt: "Affordable travel duffel bag in white, blue, and purple",
-  },
+const navLinks = [
+  { href: "#about", label: "About" },
+  { href: "#achievements", label: "Achievements" },
+  { href: "#brands", label: "Brands" },
+  { href: "#government", label: "Government" },
+  { href: "#gallery", label: "Gallery" },
+  { href: "#contact", label: "Contact" },
 ];
 
-const categoryHighlights = [
+const achievements = [
   {
-    title: "Laptop bags",
-    text: "Low-bulk protection built for office, college, and daily travel.",
-    icon: BriefcaseBusiness,
+    icon: Crown,
+    title: "Runner-Up Miss Goa 2021",
+    description: "Recognised on the state's most celebrated pageant stage.",
   },
   {
-    title: "School bags",
-    text: "Comfort-focused designs with practical storage and everyday durability.",
-    icon: PackageCheck,
+    icon: Star,
+    title: "Miss Indian Titanic Beauty",
+    description: "A national title celebrating poise, grace and personality.",
   },
   {
-    title: "Ladies hand bags",
-    text: "Elegant silhouettes that keep styling modern and pricing sensible.",
     icon: Sparkles,
-  },
-  {
-    title: "Travel bags",
-    text: "Carry more with dependable materials and a clean premium finish.",
-    icon: Truck,
+    title: "India Fashion Week Ramp Walk",
+    description: "Walked for premier designers at India's marquee fashion event.",
   },
 ];
 
-const trustStats = [
-  { label: "Average rating", value: "4.8/5", icon: Star },
-  { label: "Savings promise", value: "20% off", icon: BadgePercent },
-  { label: "Quality checked", value: "100%", icon: ShieldCheck },
-  { label: "Value pricing", value: "Best cost", icon: CircleDollarSign },
+const brands = [
+  "Marks & Spencer",
+  "Max Fashion",
+  "Lakmé",
+  "Nykaa",
+  "Forest Essentials",
+  "Tanishq",
 ];
 
-const contactOptions = [
+const governmentCampaigns = [
+  "Mopa 6-Lane Link Road",
+  "NH17B Port Connectivity",
+  "Robotic Chavath 2025",
+  "Goa Forest & Biodiversity Festival 2026",
+  "Goa Waste Management Corporation",
+];
+
+const galleryImages = [gallery1, gallery2, gallery3, gallery4, gallery5, gallery6];
+
+const testimonials = [
   {
-    title: "Email",
-    text: "Available for product enquiries and order support.",
-    icon: Mail,
+    quote:
+      "Shruti brings effortless elegance and authenticity to every campaign. Her audience trusts her — and that's gold.",
+    author: "Brand Director",
+    company: "Premium Lifestyle Label",
   },
   {
-    title: "WhatsApp",
-    text: "Quick responses for stock checks, pricing, and purchase help.",
-    icon: MessageCircle,
+    quote:
+      "From storyboarding to delivery, working with Shruti felt like collaborating with an in-house creative.",
+    author: "Marketing Lead",
+    company: "National Fashion Brand",
   },
   {
-    title: "Instagram",
-    text: "See new arrivals and styling updates as collections expand.",
-    icon: Instagram,
+    quote:
+      "Her command of regional sentiment made our public-interest campaign genuinely resonate across Goa.",
+    author: "Communications Officer",
+    company: "Government of Goa Initiative",
   },
 ];
 
 const Index = () => {
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({ title: "Message sent ✨", description: "Thank you! Shruti's team will be in touch shortly." });
+    setForm({ name: "", email: "", message: "" });
+  };
+
   return (
-    <main className="page-shell">
-      <section className="section-shell pb-8 pt-6 md:pb-12 md:pt-8">
-        <div className="hero-panel px-6 py-6 md:px-8 lg:px-10 lg:py-8">
-          <div className="glass-panel flex flex-col gap-6 rounded-[1.75rem] p-5 md:p-6">
-            <header className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div className="space-y-3">
-                <div className="eyebrow">Affordable bags, professional finish</div>
-                <div>
-                  <p className="font-display text-2xl font-bold text-foreground md:text-3xl">Nikhil</p>
-                  <p className="text-sm text-muted-foreground">Affordable but stylesh bag</p>
-                </div>
+    <div className="relative overflow-hidden">
+      {/* Nav */}
+      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-xl">
+        <div className="container flex h-16 items-center justify-between">
+          <a href="#top" className="font-display text-lg font-semibold tracking-tight">
+            Shruti<span className="text-primary">.</span>
+          </a>
+          <nav className="hidden items-center gap-8 md:flex">
+            {navLinks.map((l) => (
+              <a key={l.href} href={l.href} className="text-sm text-muted-foreground transition-colors hover:text-primary">
+                {l.label}
+              </a>
+            ))}
+          </nav>
+          <Button asChild size="sm" variant="hero" className="hidden md:inline-flex">
+            <a href="#contact">Work With Me</a>
+          </Button>
+        </div>
+      </header>
+
+      <main id="top">
+        {/* Hero */}
+        <section className="relative">
+          <div className="container grid gap-12 py-16 md:grid-cols-2 md:items-center md:py-28">
+            <div className="space-y-7">
+              <div className="eyebrow">
+                <MapPin className="mr-2 h-3.5 w-3.5" /> Goa, India
               </div>
-
-              <nav className="flex flex-wrap items-center gap-3 text-sm font-medium text-muted-foreground">
-                <a href="#products" className="transition-colors hover:text-foreground">
-                  Products
-                </a>
-                <a href="#story" className="transition-colors hover:text-foreground">
-                  Story
-                </a>
-                <a href="#reviews" className="transition-colors hover:text-foreground">
-                  Reviews
-                </a>
-                <a href="#contact" className="transition-colors hover:text-foreground">
-                  Contact
-                </a>
-              </nav>
-            </header>
-
-            <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-              <div className="space-y-8 py-2 md:py-6">
-                <div className="space-y-5">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-semibold text-secondary-foreground shadow-soft">
-                    <BadgePercent className="size-4" />
-                    Always 20 percentage offer
-                  </div>
-                  <div className="space-y-4">
-                    <h1 className="text-balance font-display text-4xl font-bold tracking-normal text-foreground md:text-6xl lg:text-7xl">
-                      Bag with quality, but still affordable
-                    </h1>
-                    <p className="max-w-xl text-base leading-7 text-muted-foreground md:text-lg">
-                      We make the best affordable laptop bags and everyday carry styles with dependable quality, clean design,
-                      and pricing that stays within reach.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Button asChild variant="hero" size="lg">
-                    <a href="#products">
-                      Explore now
-                      <ArrowRight />
-                    </a>
-                  </Button>
-                  <Button asChild variant="outline" size="lg">
-                    <a href="#reviews">See reviews</a>
-                  </Button>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <Card className="glass-panel rounded-2xl">
-                    <CardContent className="p-4">
-                      <p className="text-sm text-muted-foreground">Professional tone</p>
-                      <p className="mt-1 font-display text-xl font-bold">Clean retail feel</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="glass-panel rounded-2xl">
-                    <CardContent className="p-4">
-                      <p className="text-sm text-muted-foreground">USP</p>
-                      <p className="mt-1 font-display text-xl font-bold">Affordable laptop bag</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="glass-panel rounded-2xl">
-                    <CardContent className="p-4">
-                      <p className="text-sm text-muted-foreground">Trust element</p>
-                      <p className="mt-1 font-display text-xl font-bold">Reviews-led buying</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-
-              <div className="relative mx-auto w-full max-w-xl">
-                <div className="absolute inset-0 rounded-[2rem] bg-gradient-brand opacity-15 blur-3xl" aria-hidden="true" />
-                <div className="relative rounded-[2rem] border border-border/70 bg-card/90 p-4 shadow-elegant backdrop-blur-sm">
-                  <div className="absolute -left-5 top-10 hidden rounded-2xl border border-border/70 bg-card px-4 py-3 shadow-soft md:block">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Starting from</p>
-                    <p className="font-display text-2xl font-bold text-foreground">₹1,199</p>
-                  </div>
-                  <div className="absolute -right-4 bottom-8 hidden rounded-2xl border border-border/70 bg-card px-4 py-3 shadow-soft md:block">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Offer live</p>
-                    <p className="font-display text-2xl font-bold text-primary">20% OFF</p>
-                  </div>
-
-                  <img
-                    src={laptopBagImage}
-                    alt="Featured affordable laptop bag from Nikhil in white and purple"
-                    width={768}
-                    height={768}
-                    className="mx-auto aspect-[4/4.3] w-full rounded-[1.5rem] object-cover animate-float motion-reduce:animate-none"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell pt-8 md:pt-10">
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {categoryHighlights.map(({ title, text, icon: Icon }) => (
-            <Card key={title} className="rounded-2xl bg-card/90">
-              <CardContent className="space-y-4 p-6">
-                <div className="inline-flex size-12 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground shadow-soft">
-                  <Icon className="size-5" />
-                </div>
-                <div className="space-y-2">
-                  <h2 className="font-display text-2xl font-bold">{title}</h2>
-                  <p className="text-sm leading-6 text-muted-foreground">{text}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section id="products" className="section-shell">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeader
-            badge="Featured collection"
-            title="Good design, clear pricing, and everyday value"
-            description="Full pricing is shown up front so customers can compare styles quickly and shop with confidence."
-          />
-          <div className="rounded-2xl border border-border/80 bg-secondary px-5 py-4 shadow-soft">
-            <p className="text-sm font-medium text-muted-foreground">Special highlight</p>
-            <p className="font-display text-2xl font-bold text-secondary-foreground">Always 20 percentage offer</p>
-          </div>
-        </div>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.name} {...product} />
-          ))}
-        </div>
-      </section>
-
-      <section id="story" className="section-shell">
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <Card className="overflow-hidden rounded-[2rem] bg-surface">
-            <img
-              src={travelBagImage}
-              alt="Travel bag representing durable affordable quality at Nikhil"
-              loading="lazy"
-              width={768}
-              height={768}
-              className="aspect-[4/3.6] w-full object-cover"
-            />
-          </Card>
-
-          <div className="space-y-8">
-            <SectionHeader
-              badge="Brand story"
-              title="Built around better pricing for everyday buyers"
-              description="We have seen many pple selling the laptop bags for very high cost, we buy from good manufacturer, and sell it for best cost."
-            />
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Card className="rounded-2xl bg-card/90">
-                <CardContent className="space-y-3 p-6">
-                  <p className="text-sm font-medium text-muted-foreground">What problem we solve</p>
-                  <p className="text-base leading-7 text-foreground">
-                    We provide good quality bags for affordable price without making customers compromise on look or utility.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="rounded-2xl bg-card/90">
-                <CardContent className="space-y-3 p-6">
-                  <p className="text-sm font-medium text-muted-foreground">Why customers choose us</p>
-                  <p className="text-base leading-7 text-foreground">
-                    Affordable laptop bag pricing, dependable sourcing, and a cleaner product presentation than typical budget options.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="reviews" className="section-shell">
-        <SectionHeader
-          badge="Reviews"
-          title="Trust is built through visible value"
-          description="Client testimonials were not provided, so the homepage highlights review-led confidence signals and the brand's pricing promise."
-          align="center"
-        />
-
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {trustStats.map(({ label, value, icon: Icon }) => (
-            <Card key={label} className="rounded-2xl bg-card/95">
-              <CardContent className="space-y-4 p-6 text-center">
-                <div className="mx-auto inline-flex size-12 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground shadow-soft">
-                  <Icon className="size-5" />
-                </div>
-                <div>
-                  <p className="font-display text-3xl font-bold text-foreground">{value}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">{label}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section id="contact" className="section-shell pt-0">
-        <div className="rounded-[2rem] border border-border/80 bg-gradient-hero p-6 shadow-elegant md:p-10">
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-            <div className="space-y-5">
-              <div className="eyebrow">Contact channels</div>
-              <h2 className="text-balance font-display text-3xl font-bold md:text-5xl">Connect through the channels your customers already use</h2>
-              <p className="max-w-xl text-base leading-7 text-muted-foreground md:text-lg">
-                Email, WhatsApp, and Instagram are ready to anchor enquiries, direct product questions, and new collection discovery.
+              <h1 className="font-display text-5xl leading-[1.05] text-balance md:text-7xl">
+                Shruti <span className="italic text-primary">Simepurushkar</span>
+              </h1>
+              <p className="text-base font-medium uppercase tracking-[0.25em] text-muted-foreground">
+                Fashion · Lifestyle · Government Campaign Influencer
               </p>
-              <Button asChild variant="hero" size="lg">
-                <a href="#products">
-                  Explore now
-                  <ArrowRight />
-                </a>
-              </Button>
+              <p className="max-w-lg text-lg leading-relaxed text-muted-foreground">
+                Empowering brands and communities through content — crafted with intention, styled with grace.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <Button asChild size="lg" variant="hero">
+                  <a href="#contact">
+                    Work With Me <Heart className="ml-1 h-4 w-4" />
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <a href="#brands">View Collaborations</a>
+                </Button>
+              </div>
+              <div className="flex items-center gap-4 pt-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-brand text-primary-foreground shadow-elegant">
+                  <Instagram className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className="font-display text-2xl font-semibold">1.22L+</div>
+                  <div className="text-xs uppercase tracking-widest text-muted-foreground">Instagram Followers</div>
+                </div>
+              </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
-              {contactOptions.map(({ title, text, icon: Icon }) => (
-                <Card key={title} className="rounded-2xl bg-card/95">
-                  <CardContent className="space-y-4 p-6">
-                    <div className="inline-flex size-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground shadow-soft">
-                      <Icon className="size-5" />
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="font-display text-2xl font-bold text-foreground">{title}</h3>
-                      <p className="text-sm leading-6 text-muted-foreground">{text}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="relative">
+              <div className="absolute -inset-6 rounded-[3rem] bg-gradient-brand opacity-20 blur-3xl" />
+              <div className="glass-panel relative overflow-hidden rounded-[2.5rem] p-3">
+                <img
+                  src={heroPortrait}
+                  alt="Portrait of Shruti Simepurushkar, Goa fashion and lifestyle influencer"
+                  width={1024}
+                  height={1280}
+                  className="h-[520px] w-full rounded-[2rem] object-cover md:h-[620px]"
+                />
+              </div>
+              <div className="glass-panel absolute -bottom-6 -left-6 hidden items-center gap-3 rounded-2xl px-5 py-3 md:flex">
+                <Award className="h-5 w-5 text-primary" />
+                <div className="text-sm">
+                  <div className="font-semibold">Govt. of Goa</div>
+                  <div className="text-xs text-muted-foreground">Empanelled Influencer</div>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
+
+        {/* About */}
+        <section id="about" className="section-shell">
+          <div className="grid gap-10 md:grid-cols-5 md:gap-16">
+            <div className="md:col-span-2">
+              <div className="eyebrow mb-5">About</div>
+              <h2 className="font-display text-4xl md:text-5xl">A journey of passion & purpose.</h2>
+            </div>
+            <div className="space-y-6 md:col-span-3">
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                An IT engineer turned fashion and digital media influencer, Shruti's journey is a blend of passion and
+                purpose. From being <span className="font-medium text-foreground">Runner-Up Miss Goa 2021</span> to
+                winning <span className="font-medium text-foreground">Miss Indian Titanic Beauty</span>, she has built a
+                strong presence in fashion and content creation.
+              </p>
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {[
+                  "Walked at India Fashion Week",
+                  "Modelled for Marks & Spencer, Max & leading brands",
+                  "Government of Goa empanelled influencer",
+                  "Featured creator across fashion & lifestyle",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 rounded-2xl bg-card/60 p-4 backdrop-blur">
+                    <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <span className="text-sm text-foreground">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Achievements */}
+        <section id="achievements" className="section-shell">
+          <div className="section-heading mx-auto text-center">
+            <div className="eyebrow mx-auto">Titles & Honours</div>
+            <h2 className="font-display text-4xl md:text-5xl">Achievements that speak for themselves.</h2>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {achievements.map(({ icon: Icon, title, description }) => (
+              <article key={title} className="peach-card text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 font-display text-2xl">{title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Brands */}
+        <section id="brands" className="section-shell">
+          <div className="section-heading mx-auto text-center">
+            <div className="eyebrow mx-auto">Collaborations</div>
+            <h2 className="font-display text-4xl md:text-5xl">Trusted by leading brands.</h2>
+          </div>
+          <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+            {brands.map((b) => (
+              <div
+                key={b}
+                className="flex h-24 items-center justify-center rounded-2xl border border-border/70 bg-card/60 px-4 text-center font-display text-lg text-foreground/80 shadow-soft backdrop-blur transition-all hover:-translate-y-0.5 hover:text-primary hover:shadow-elegant"
+              >
+                {b}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Government */}
+        <section id="government" className="relative">
+          <div className="container">
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-primary/15 bg-gradient-to-br from-[hsl(var(--primary-soft))] via-background to-[hsl(var(--accent))] p-8 shadow-elegant md:p-16">
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gradient-brand opacity-20 blur-3xl" />
+              <div className="grid gap-12 md:grid-cols-2 md:items-center">
+                <div className="space-y-5">
+                  <div className="eyebrow">
+                    <Landmark className="mr-2 h-3.5 w-3.5" /> Government Collaborations
+                  </div>
+                  <h2 className="font-display text-4xl md:text-5xl">
+                    Empanelled by the <span className="italic text-primary">Government of Goa</span>.
+                  </h2>
+                  <p className="max-w-md text-muted-foreground">
+                    Partnering on flagship public-interest campaigns that connect with citizens across the state.
+                  </p>
+                </div>
+                <ul className="space-y-3">
+                  {governmentCampaigns.map((c, i) => (
+                    <li
+                      key={c}
+                      className="flex items-center gap-4 rounded-2xl border border-border/60 bg-card/70 p-4 backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-soft"
+                    >
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 font-display text-sm text-primary">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-sm font-medium text-foreground">{c}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Experience */}
+        <section className="section-shell">
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="peach-card">
+              <div className="eyebrow mb-4">Experience</div>
+              <h3 className="font-display text-2xl">Judge — All Goa Dandiya Competition</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Honoured to evaluate cultural performances at one of Goa's largest community events.
+              </p>
+            </div>
+            <div className="peach-card">
+              <div className="eyebrow mb-4">Experience</div>
+              <h3 className="font-display text-2xl">Judge — Fashion Shows & Cultural Events</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Regularly invited to judge fashion competitions and cultural showcases across the region.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Gallery */}
+        <section id="gallery" className="section-shell">
+          <div className="section-heading mx-auto text-center">
+            <div className="eyebrow mx-auto">
+              <Camera className="mr-2 h-3.5 w-3.5" /> Instagram
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl">Follow my journey.</h2>
+          </div>
+          <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
+            {galleryImages.map((src, i) => (
+              <a
+                key={i}
+                href="#"
+                className="group relative block overflow-hidden rounded-2xl border border-border/70 shadow-soft"
+              >
+                <img
+                  src={src}
+                  alt={`Lifestyle moment ${i + 1}`}
+                  width={800}
+                  height={800}
+                  loading="lazy"
+                  className="aspect-square h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-primary/60 via-primary/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <Instagram className="h-7 w-7 text-white" />
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="section-shell">
+          <div className="section-heading mx-auto text-center">
+            <div className="eyebrow mx-auto">Kind Words</div>
+            <h2 className="font-display text-4xl md:text-5xl">What partners say.</h2>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {testimonials.map((t) => (
+              <figure key={t.author} className="peach-card flex flex-col">
+                <Quote className="h-7 w-7 text-primary/50" />
+                <blockquote className="mt-4 flex-1 text-base leading-relaxed text-foreground/90">"{t.quote}"</blockquote>
+                <figcaption className="mt-6 border-t border-border/60 pt-4">
+                  <div className="font-display text-lg">{t.author}</div>
+                  <div className="text-xs uppercase tracking-widest text-muted-foreground">{t.company}</div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="section-shell">
+          <div className="grid gap-12 rounded-[2.5rem] border border-border/70 bg-gradient-to-br from-[hsl(var(--hero-from))] via-background to-[hsl(var(--hero-to))] p-8 shadow-elegant md:grid-cols-2 md:p-14">
+            <div className="space-y-5">
+              <div className="eyebrow">Contact</div>
+              <h2 className="font-display text-4xl md:text-5xl">Let's collaborate.</h2>
+              <p className="text-muted-foreground">
+                For brand campaigns, ramp walks, judging invitations or government partnerships — drop a note and we'll
+                respond within 48 hours.
+              </p>
+              <div className="space-y-3 pt-4 text-sm">
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <Mail className="h-4 w-4 text-primary" /> hello@shruti.in
+                </div>
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <MapPin className="h-4 w-4 text-primary" /> Goa, India
+                </div>
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-2 rounded-full bg-card/80 px-4 py-2 text-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-elegant"
+                >
+                  <Instagram className="h-4 w-4 text-primary" /> @shruti.simepurushkar
+                </a>
+              </div>
+            </div>
+            <form onSubmit={handleSubmit} className="glass-panel space-y-4 p-6 md:p-8">
+              <div className="space-y-2">
+                <label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Name</label>
+                <Input
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder="Your name"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Email</label>
+                <Input
+                  required
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder="you@brand.com"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Message</label>
+                <Textarea
+                  required
+                  rows={5}
+                  value={form.message}
+                  onChange={(e) => setForm({ ...form, message: e.target.value })}
+                  placeholder="Tell us about your campaign..."
+                />
+              </div>
+              <Button type="submit" variant="hero" size="lg" className="w-full">
+                Send Message <Send className="ml-1 h-4 w-4" />
+              </Button>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-border/60 bg-background/60 backdrop-blur">
+        <div className="container flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Shruti Simepurushkar. Crafted with care in Goa.
+          </p>
+          <div className="flex items-center gap-3">
+            <a
+              href="#"
+              aria-label="Instagram"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-card shadow-soft transition-all hover:-translate-y-0.5 hover:text-primary"
+            >
+              <Instagram className="h-4 w-4" />
+            </a>
+            <a
+              href="#contact"
+              aria-label="Email"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-card shadow-soft transition-all hover:-translate-y-0.5 hover:text-primary"
+            >
+              <Mail className="h-4 w-4" />
+            </a>
+          </div>
         </div>
-      </section>
-    </main>
+      </footer>
+    </div>
   );
 };
 
